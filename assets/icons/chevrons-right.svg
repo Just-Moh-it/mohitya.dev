@@ -1,0 +1,10 @@
+<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="chevrons-right" clip-path="url(#clip0_22_6)">
+    <path id="third" d="M13 17.5672L18 12.5672L13 7.56717" stroke="white" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round" />
+    <path id="second" d="M6 17.5672L11 12.5672L6 7.56717" stroke="white" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round" />
+    <path id="first" d="M-1 17.5672L4 12.5672L-1 7.56717" stroke="white" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round" />
+  </g>
+</svg>
