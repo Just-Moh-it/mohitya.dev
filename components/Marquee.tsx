@@ -82,9 +82,10 @@ const Marquee = ({
   const marquee = useRef(null);
 
   const x = useRef(0);
-  let w: number;
-  if (typeof window !== "undefined") w = useRef(window.innerWidth).current;
-  else w = 0;
+  let innerW: number = 0;
+  if (typeof window !== "undefined") innerW = window.innerWidth;
+
+  const w = useRef(innerW).current;
 
   const speed = useSpring(_.speed, {
     damping: 40,

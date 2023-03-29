@@ -44,7 +44,7 @@ export default function HomePage() {
         {/* Hero Section */}
         <div className="flex flex-col gap-9 max-w-2xl px-6 self-center">
           <h1 className="bg-clip-text bg-gradient-to-b text-[52px] leading-[110%] font-bold items-stretch from-white to-white/60 text-transparent">
-            Hey! I'm
+            Hey! I&apos;m
             <Image
               src={pfpHeroHomeImage}
               alt="Mohit's Profile Picture"
@@ -64,7 +64,7 @@ export default function HomePage() {
           </h1>
 
           <p className="max-w-xl text-lg leading-[170%] text-[#666666]">
-            I'm sort of all over the place&#8211;a designer, a programmer, an
+            I&apos;m sort of all over the place&#8211;a designer, a programmer, an
             entrepreneur and (kind of) a visionary.
           </p>
 
