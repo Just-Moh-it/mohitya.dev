@@ -29,17 +29,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Providers>
-      <html lang="en" suppressHydrationWarning>
-        <head>
-          <meta property="og:image" content="/og.png" />
-          <meta property="og:image:type" content="image/png" />
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
-        </head>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background`}
-        >
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta property="og:image" content="/og.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+      </head>
+
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-svh bg-background`}
+      >
+        <Providers>
           <DefaultPaddedLayout>
             <Hotkeys />
             <Header />
@@ -48,8 +49,8 @@ export default function RootLayout({
 
             <Footer />
           </DefaultPaddedLayout>
-        </body>
-      </html>
-    </Providers>
+        </Providers>
+      </body>
+    </html>
   );
 }
