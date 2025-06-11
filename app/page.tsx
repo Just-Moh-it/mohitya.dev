@@ -6,7 +6,7 @@ export default function Home() {
       {/* Header Section */}
       <section className="mb-8">
         <h1 className="text-4xl/snug tracking-tight font-bold mb-6">
-          Developer of Apps, Designer of Products, Lifter of Weights
+          Developer of Apps, Designer of Products & Lifter of Weights
         </h1>
 
         <LocationLine />
