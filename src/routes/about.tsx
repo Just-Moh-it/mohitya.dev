@@ -1,8 +1,34 @@
-import Link from "next/link";
+import { createFileRoute } from "@tanstack/react-router";
 
-export default function AboutPage() {
+export const Route = createFileRoute("/about")({
+  head: () => ({
+    meta: [
+      { title: "About - Mohit Yadav" },
+      {
+        name: "description",
+        content:
+          "About Mohit Yadav - building things since 10th grade, from founding a company to working with startups and large companies.",
+      },
+      { property: "og:title", content: "About - Mohit Yadav" },
+      {
+        property: "og:description",
+        content:
+          "About Mohit Yadav - building things since 10th grade, from founding a company to working with startups and large companies.",
+      },
+      { name: "twitter:title", content: "About - Mohit Yadav" },
+      {
+        name: "twitter:description",
+        content:
+          "About Mohit Yadav - building things since 10th grade, from founding a company to working with startups and large companies.",
+      },
+    ],
+  }),
+  component: AboutPage,
+});
+
+function AboutPage() {
   return (
-    <div className="">
+    <div>
       <h1 className="text-3xl/snug font-bold mb-4">About me</h1>
       <p className="mb-6 text-base/relaxed">
         I&apos;ve been building things since 10th grade. I started by founding a
@@ -17,45 +43,50 @@ export default function AboutPage() {
         My journey began with design work for a small non-profit, followed by
         various hackathon projects. Some found success beyond the events, with
         one reaching 150k users. This led to opportunities with companies like{" "}
-        <Link
+        <a
           href="https://harmonic.ai"
           target="_blank"
+          rel="noopener noreferrer"
           className="underline decoration-muted-foreground hover:decoration-foreground underline-offset-2"
         >
           Harmonic
-        </Link>
+        </a>
         ,{" "}
-        <Link
+        <a
           href="https://www.livenation.com/"
           target="_blank"
+          rel="noopener noreferrer"
           className="underline decoration-muted-foreground hover:decoration-foreground underline-offset-2"
         >
           Live Nation
-        </Link>
+        </a>
         ,{" "}
-        <Link
+        <a
           href="https://viddyoze.com/"
           target="_blank"
+          rel="noopener noreferrer"
           className="underline decoration-muted-foreground hover:decoration-foreground underline-offset-2"
         >
           Viddyoze
-        </Link>
+        </a>
         ,{" "}
-        <Link
+        <a
           href="https://designstripe.com/"
           target="_blank"
+          rel="noopener noreferrer"
           className="underline decoration-muted-foreground hover:decoration-foreground underline-offset-2"
         >
           Design Stripe (Now Visual)
-        </Link>
+        </a>
         ,{" "}
-        <Link
+        <a
           href="https://adcreative.ai/"
           target="_blank"
+          rel="noopener noreferrer"
           className="underline decoration-muted-foreground hover:decoration-foreground underline-offset-2"
         >
           Adcreative.ai
-        </Link>
+        </a>
         , and others.
       </p>
 
@@ -76,8 +107,8 @@ export default function AboutPage() {
       <p className="mb-8 text-base/relaxed">
         Based in Austin, Texas, I&apos;m working on a new startup while taking
         on select client projects. In my free time, I build tools and products
-        that address real-world problems. 2025 is my year of focused building
-        and shipping.
+        that address real-world problems. 2025 is my year of focused building and
+        shipping.
       </p>
     </div>
   );

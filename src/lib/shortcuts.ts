@@ -7,6 +7,10 @@ export const shortcuts = {
     label: "about",
     key: "a",
   },
+  blog: {
+    label: "blog",
+    key: "b",
+  },
   x: {
     label: "𝕏",
     key: "x",

@@ -1,17 +1,13 @@
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useRouterState } from "@tanstack/react-router";
 
 export function Header() {
-  const pathname = usePathname();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
     <header className="font-mono">
       <div className="flex justify-between items-center">
-        <Link href="/" className="grid gap-3">
-          <Image
+        <Link to="/" className="grid gap-3">
+          <img
             src="https://avatars.githubusercontent.com/just-moh-it"
             alt="Mohit Yadav"
             width={40}
@@ -24,18 +20,25 @@ export function Header() {
 
         <nav className="flex gap-6 text-sm self-end">
           <Link
-            href="/"
+            to="/"
             className="data-[state=inactive]:text-muted-foreground"
             data-state={pathname === "/" ? "active" : "inactive"}
           >
             [h] home
           </Link>
           <Link
-            href="/about"
+            to="/about"
             className="data-[state=inactive]:text-muted-foreground"
             data-state={pathname === "/about" ? "active" : "inactive"}
           >
             [a] about
+          </Link>
+          <Link
+            to="/blog"
+            className="data-[state=inactive]:text-muted-foreground"
+            data-state={pathname.startsWith("/blog") ? "active" : "inactive"}
+          >
+            [b] blog
           </Link>
         </nav>
       </div>

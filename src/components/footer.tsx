@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const XLogo = () => {
   return (
     <svg viewBox="0 0 24 24" className="w-3 h-3 inline-block fill-current">
@@ -16,15 +14,15 @@ export function Footer() {
       <h2 className="text-2xl font-bold mb-8">Feel free to say hi</h2>
 
       <div className="flex gap-8 font-mono text-sm">
-        <Link href="https://x.com/just_moh_it" target="_blank">
+        <a href="https://x.com/just_moh_it" target="_blank" rel="noopener noreferrer">
           [x] <XLogo />
-        </Link>
-        <Link href="https://linkedin.com/in/just-moh-it" target="_blank">
+        </a>
+        <a href="https://linkedin.com/in/just-moh-it" target="_blank" rel="noopener noreferrer">
           [l] linkedIn
-        </Link>
-        <Link href="https://github.com/just-moh-it" target="_blank">
+        </a>
+        <a href="https://github.com/just-moh-it" target="_blank" rel="noopener noreferrer">
           [g] github
-        </Link>
+        </a>
       </div>
     </footer>
   );

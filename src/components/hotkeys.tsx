@@ -1,19 +1,20 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import { useNavigate } from "@tanstack/react-router";
 import { useHotkeys } from "react-hotkeys-hook";
-
 import { shortcuts } from "~/lib/shortcuts";
 
 export function Hotkeys() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   useHotkeys(shortcuts.home.key, () => {
-    router.push("/");
+    navigate({ to: "/" });
   });
 
   useHotkeys(shortcuts.about.key, () => {
-    router.push("/about");
+    navigate({ to: "/about" });
+  });
+
+  useHotkeys(shortcuts.blog.key, () => {
+    navigate({ to: "/blog" });
   });
 
   useHotkeys(shortcuts.x.key, () => {
