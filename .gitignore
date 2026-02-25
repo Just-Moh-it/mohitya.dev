@@ -7,8 +7,10 @@
 /coverage
 
 # build output
+/.next/
 /.output/
 /dist/
+/.tanstack/tmp/
 
 # misc
 .DS_Store
