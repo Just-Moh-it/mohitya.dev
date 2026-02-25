@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "images": [
+    {
+      "filename": "default.png",
+      "inputs": {
+        "title": "Developer of Apps, Designer of Products & Lifter of Weights"
+      },
+      "hash": "c0aca1a401e9e153"
+    },
+    {
+      "filename": "leetcode-is-a-disqualifier.png",
+      "inputs": {
+        "title": "Leetcode as a qualifier for startups",
+        "date": "February 25, 2026",
+        "readingTime": "4 min read"
+      },
+      "hash": "7f2cd678525b1bde"
+    }
+  ]
+}
