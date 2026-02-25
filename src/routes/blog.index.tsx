@@ -29,8 +29,8 @@ export const Route = createFileRoute("/blog/")({
 
 const posts = [
   {
-    slug: "leetcode-is-a-disqualifier",
-    title: "Leetcode as a qualifier for startups",
+    slug: "leetcode-as-a-disqualifier-for-startups",
+    title: "Leetcode as a disqualifier for startups",
     date: "2026-02-25",
     readingTime: "4 min read",
     description:

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/blog/leetcode-is-a-disqualifier")({
+export const Route = createFileRoute("/blog/leetcode-as-a-disqualifier-for-startups")({
   head: () => ({
     meta: [
       { title: "Leetcode as a disqualifier for startups - Mohit Yadav" },

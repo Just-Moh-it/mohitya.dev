@@ -13,7 +13,7 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
-import { Route as BlogLeetcodeIsADisqualifierRouteImport } from './routes/blog.leetcode-is-a-disqualifier'
+import { Route as BlogLeetcodeAsADisqualifierForStartupsRouteImport } from './routes/blog.leetcode-as-a-disqualifier-for-startups'
 
 const BlogRoute = BlogRouteImport.update({
   id: '/blog',
@@ -35,10 +35,10 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   path: '/',
   getParentRoute: () => BlogRoute,
 } as any)
-const BlogLeetcodeIsADisqualifierRoute =
-  BlogLeetcodeIsADisqualifierRouteImport.update({
-    id: '/leetcode-is-a-disqualifier',
-    path: '/leetcode-is-a-disqualifier',
+const BlogLeetcodeAsADisqualifierForStartupsRoute =
+  BlogLeetcodeAsADisqualifierForStartupsRouteImport.update({
+    id: '/leetcode-as-a-disqualifier-for-startups',
+    path: '/leetcode-as-a-disqualifier-for-startups',
     getParentRoute: () => BlogRoute,
   } as any)
 
@@ -46,13 +46,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
-  '/blog/leetcode-is-a-disqualifier': typeof BlogLeetcodeIsADisqualifierRoute
+  '/blog/leetcode-as-a-disqualifier-for-startups': typeof BlogLeetcodeAsADisqualifierForStartupsRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/blog/leetcode-is-a-disqualifier': typeof BlogLeetcodeIsADisqualifierRoute
+  '/blog/leetcode-as-a-disqualifier-for-startups': typeof BlogLeetcodeAsADisqualifierForStartupsRoute
   '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
@@ -60,7 +60,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
-  '/blog/leetcode-is-a-disqualifier': typeof BlogLeetcodeIsADisqualifierRoute
+  '/blog/leetcode-as-a-disqualifier-for-startups': typeof BlogLeetcodeAsADisqualifierForStartupsRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
@@ -69,16 +69,16 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
-    | '/blog/leetcode-is-a-disqualifier'
+    | '/blog/leetcode-as-a-disqualifier-for-startups'
     | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/blog/leetcode-is-a-disqualifier' | '/blog'
+  to: '/' | '/about' | '/blog/leetcode-as-a-disqualifier-for-startups' | '/blog'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/blog'
-    | '/blog/leetcode-is-a-disqualifier'
+    | '/blog/leetcode-as-a-disqualifier-for-startups'
     | '/blog/'
   fileRoutesById: FileRoutesById
 }
@@ -118,23 +118,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof BlogRoute
     }
-    '/blog/leetcode-is-a-disqualifier': {
-      id: '/blog/leetcode-is-a-disqualifier'
-      path: '/leetcode-is-a-disqualifier'
-      fullPath: '/blog/leetcode-is-a-disqualifier'
-      preLoaderRoute: typeof BlogLeetcodeIsADisqualifierRouteImport
+    '/blog/leetcode-as-a-disqualifier-for-startups': {
+      id: '/blog/leetcode-as-a-disqualifier-for-startups'
+      path: '/leetcode-as-a-disqualifier-for-startups'
+      fullPath: '/blog/leetcode-as-a-disqualifier-for-startups'
+      preLoaderRoute: typeof BlogLeetcodeAsADisqualifierForStartupsRouteImport
       parentRoute: typeof BlogRoute
     }
   }
 }
 
 interface BlogRouteChildren {
-  BlogLeetcodeIsADisqualifierRoute: typeof BlogLeetcodeIsADisqualifierRoute
+  BlogLeetcodeAsADisqualifierForStartupsRoute: typeof BlogLeetcodeAsADisqualifierForStartupsRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
 
 const BlogRouteChildren: BlogRouteChildren = {
-  BlogLeetcodeIsADisqualifierRoute: BlogLeetcodeIsADisqualifierRoute,
+  BlogLeetcodeAsADisqualifierForStartupsRoute:
+    BlogLeetcodeAsADisqualifierForStartupsRoute,
   BlogIndexRoute: BlogIndexRoute,
 }
 

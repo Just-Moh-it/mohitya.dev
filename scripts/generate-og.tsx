@@ -131,8 +131,8 @@ async function main() {
   });
 
   await generateOgImage({
-    filename: "leetcode-is-a-disqualifier.png",
-    title: "Leetcode as a qualifier for startups",
+    filename: "leetcode-as-a-disqualifier-for-startups.png",
+    title: "Leetcode as a disqualifier for startups",
     date: "February 25, 2026",
     readingTime: "4 min read",
   });
