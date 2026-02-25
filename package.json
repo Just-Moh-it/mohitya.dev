@@ -15,8 +15,9 @@
   "dependencies": {
     "@radix-ui/react-hover-card": "^1.1.14",
     "@tabler/icons-react": "^3.33.0",
-    "@tanstack/react-router": "^1",
-    "@tanstack/react-start": "^1",
+    "@tanstack/react-router": "^1.163.2",
+    "@tanstack/react-start": "^1.163.2",
+    "nitro": "^3.0.1-20260225-084212-c0b46421",
     "posthog-js": "^1.250.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -33,7 +34,7 @@
     "satori": "^0.19.2",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vite": "^6",
+    "vite": "^7.3.1",
     "vite-tsconfig-paths": "^4"
   }
 }
