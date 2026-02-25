@@ -105,10 +105,9 @@ function AboutPage() {
 
       <h2 className="text-2xl font-bold mb-2">What I&apos;m doing now</h2>
       <p className="mb-8 text-base/relaxed">
-        Based in Austin, Texas, I&apos;m working on a new startup while taking
-        on select client projects. In my free time, I build tools and products
-        that address real-world problems. 2025 is my year of focused building and
-        shipping.
+        Based in Austin, Texas, I&apos;m working on a new startup. In my free
+        time, I build tools and products that address real-world problems. 2025
+        is my year of focused building and shipping.
       </p>
     </div>
   );
