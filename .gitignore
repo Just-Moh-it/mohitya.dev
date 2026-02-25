@@ -9,8 +9,8 @@
 # build output
 /.next/
 /.output/
+/.tanstack/
 /dist/
-/.tanstack/tmp/
 
 # misc
 .DS_Store

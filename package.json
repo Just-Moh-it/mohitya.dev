@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "bun@1.3.6",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "bun run generate-og && vite build",
     "start": "node .output/server/index.mjs",
     "lint": "eslint src/",
     "generate-og": "bun run scripts/generate-og.tsx",
-    "prebuild": "bun run generate-og"
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@radix-ui/react-hover-card": "^1.1.14",
@@ -28,6 +29,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^4",
+    "lefthook": "^2.1.1",
     "satori": "^0.19.2",
     "tailwindcss": "^4",
     "typescript": "^5",

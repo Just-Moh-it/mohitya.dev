@@ -1,0 +1,4 @@
+pre-commit:
+  commands:
+    generate-og:
+      run: bun run generate-og && git add public/og/ .og-manifest.json

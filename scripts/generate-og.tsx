@@ -1,13 +1,82 @@
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
-import { writeFileSync, mkdirSync } from "fs";
+import { writeFileSync, readFileSync, mkdirSync, existsSync } from "fs";
 import { join } from "path";
+import { createHash } from "crypto";
+
+const ROOT = join(import.meta.dirname!, "..");
+const OUT_DIR = join(ROOT, "public", "og");
+const MANIFEST_PATH = join(ROOT, ".og-manifest.json");
+const IS_CI = !!(process.env.CI || process.env.VERCEL);
+
+// ---------------------------------------------------------------------------
+// Manifest types
+// ---------------------------------------------------------------------------
+
+type OgInputs = {
+  filename: string;
+  title: string;
+  date?: string;
+  readingTime?: string;
+};
+
+type ManifestEntry = {
+  filename: string;
+  inputs: Omit<OgInputs, "filename">;
+  hash: string;
+};
+
+type Manifest = {
+  version: 1;
+  images: ManifestEntry[];
+};
+
+function hashInputs(inputs: Omit<OgInputs, "filename">): string {
+  return createHash("sha256")
+    .update(JSON.stringify(inputs))
+    .digest("hex")
+    .slice(0, 16);
+}
+
+function readManifest(): Manifest | null {
+  if (!existsSync(MANIFEST_PATH)) return null;
+  try {
+    return JSON.parse(readFileSync(MANIFEST_PATH, "utf-8"));
+  } catch {
+    return null;
+  }
+}
+
+function writeManifest(manifest: Manifest) {
+  writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + "\n");
+}
+
+// ---------------------------------------------------------------------------
+// OG image definitions — add new entries here
+// ---------------------------------------------------------------------------
+
+const OG_IMAGES: OgInputs[] = [
+  {
+    filename: "default.png",
+    title: "Developer of Apps, Designer of Products & Lifter of Weights",
+  },
+  {
+    filename: "leetcode-is-a-disqualifier.png",
+    title: "Leetcode as a qualifier for startups",
+    date: "February 25, 2026",
+    readingTime: "4 min read",
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Font loading
+// ---------------------------------------------------------------------------
 
 const fontCache = new Map<string, ArrayBuffer>();
 
 async function fetchFont(
   family: string,
-  weight: number
+  weight: number,
 ): Promise<ArrayBuffer> {
   const key = `${family}-${weight}`;
   const cached = fontCache.get(key);
@@ -17,9 +86,10 @@ async function fetchFont(
     `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}&display=swap`,
     {
       headers: {
-        "User-Agent": "Mozilla/5.0 (BB10; Touch) AppleWebKit/537.10+ (KHTML, like Gecko) Version/10.0.9.2372 Mobile Safari/537.10+",
+        "User-Agent":
+          "Mozilla/5.0 (BB10; Touch) AppleWebKit/537.10+ (KHTML, like Gecko) Version/10.0.9.2372 Mobile Safari/537.10+",
       },
-    }
+    },
   ).then((r) => r.text());
 
   const match = css.match(/src: url\(([^)]+)\) format\('truetype'\)/);
@@ -30,12 +100,11 @@ async function fetchFont(
   return data;
 }
 
-async function generateOgImage(opts: {
-  filename: string;
-  title: string;
-  date?: string;
-  readingTime?: string;
-}) {
+// ---------------------------------------------------------------------------
+// Image rendering
+// ---------------------------------------------------------------------------
+
+async function renderOgImage(opts: OgInputs): Promise<Buffer> {
   const [geist400, geist700, geistMono400] = await Promise.all([
     fetchFont("Geist", 400),
     fetchFont("Geist", 700),
@@ -108,36 +177,82 @@ async function generateOgImage(opts: {
       fonts: [
         { name: "Geist", data: geist400, weight: 400, style: "normal" as const },
         { name: "Geist", data: geist700, weight: 700, style: "normal" as const },
-        { name: "Geist Mono", data: geistMono400, weight: 400, style: "normal" as const },
+        {
+          name: "Geist Mono",
+          data: geistMono400,
+          weight: 400,
+          style: "normal" as const,
+        },
       ],
-    }
+    },
   );
 
   const resvg = new Resvg(svg);
-  const png = resvg.render().asPng();
-
-  const outDir = join(import.meta.dirname!, "..", "public", "og");
-  mkdirSync(outDir, { recursive: true });
-  writeFileSync(join(outDir, opts.filename), png);
-  console.log(`  Generated: public/og/${opts.filename}`);
+  return Buffer.from(resvg.render().asPng());
 }
+
+// ---------------------------------------------------------------------------
+// Reconciliation
+// ---------------------------------------------------------------------------
 
 async function main() {
-  console.log("Generating OG images...\n");
+  const existing = readManifest();
+  const existingByFilename = new Map(
+    existing?.images.map((e) => [e.filename, e]) ?? [],
+  );
 
-  await generateOgImage({
-    filename: "default.png",
-    title: "Developer of Apps, Designer of Products & Lifter of Weights",
-  });
+  const nextManifest: Manifest = { version: 1, images: [] };
+  const toGenerate: OgInputs[] = [];
 
-  await generateOgImage({
-    filename: "leetcode-as-a-disqualifier-for-startups.png",
-    title: "Leetcode as a disqualifier for startups",
-    date: "February 25, 2026",
-    readingTime: "4 min read",
-  });
+  for (const img of OG_IMAGES) {
+    const { filename, ...inputs } = img;
+    const hash = hashInputs(inputs);
+    const prev = existingByFilename.get(filename);
+    const imageExists = existsSync(join(OUT_DIR, filename));
 
-  console.log("\nDone!");
+    if (prev?.hash === hash && imageExists) {
+      nextManifest.images.push(prev);
+    } else {
+      toGenerate.push(img);
+      nextManifest.images.push({ filename, inputs, hash });
+    }
+  }
+
+  if (toGenerate.length === 0) {
+    console.log("OG images up to date — nothing to generate.");
+    return;
+  }
+
+  if (IS_CI) {
+    console.error(
+      `\n✗ OG images are stale or missing — ${toGenerate.length} image(s) need regeneration:\n`,
+    );
+    for (const img of toGenerate) {
+      console.error(`  - public/og/${img.filename}`);
+    }
+    console.error(
+      "\nRun `bun run generate-og` locally and commit the results.\n",
+    );
+    process.exit(1);
+  }
+
+  mkdirSync(OUT_DIR, { recursive: true });
+
+  console.log(
+    `Generating ${toGenerate.length}/${OG_IMAGES.length} OG image(s)...\n`,
+  );
+
+  for (const img of toGenerate) {
+    const png = await renderOgImage(img);
+    writeFileSync(join(OUT_DIR, img.filename), png);
+    console.log(`  ✓ public/og/${img.filename}`);
+  }
+
+  writeManifest(nextManifest);
+  console.log(`\nManifest written to .og-manifest.json`);
 }
 
-main().catch(console.error);
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
