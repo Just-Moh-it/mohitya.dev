@@ -11,6 +11,7 @@
 /.output/
 /.tanstack/
 /dist/
+.turbo/
 
 # misc
 .DS_Store

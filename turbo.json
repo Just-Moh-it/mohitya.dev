@@ -1,0 +1,24 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "generate-og": {
+      "inputs": ["scripts/generate-og.tsx", ".og-manifest.json"],
+      "outputs": ["public/og/**", ".og-manifest.json"]
+    },
+    "build:vite": {
+      "dependsOn": ["generate-og"],
+      "inputs": [
+        "src/**",
+        "public/**",
+        "vite.config.ts",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "outputs": [".output/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
