@@ -150,7 +150,7 @@ async function renderOgImage(opts: OgInputs): Promise<Buffer> {
           width: "100%",
           height: "80%",
           borderBottom: "1px solid #333",
-          padding: "60px 120px 40px",
+          padding: "60px 168px 40px 48px",
         }}
       >
         <img
