@@ -1,13 +1,20 @@
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
-import { writeFileSync, readFileSync, mkdirSync, existsSync } from "fs";
+import {
+  writeFileSync,
+  readFileSync,
+  mkdirSync,
+  existsSync,
+  readdirSync,
+  unlinkSync,
+} from "fs";
 import { join } from "path";
 import { createHash } from "crypto";
 
 const ROOT = join(import.meta.dirname!, "..");
 const OUT_DIR = join(ROOT, "public", "og");
 const MANIFEST_PATH = join(ROOT, ".og-manifest.json");
-const IS_CI = !!(process.env.CI || process.env.VERCEL);
+const IS_CI = !!(process.env.CI || process.env.VERCEL_ENV);
 
 // ---------------------------------------------------------------------------
 // Manifest types
@@ -61,8 +68,8 @@ const OG_IMAGES: OgInputs[] = [
     title: "Developer of Apps, Designer of Products & Lifter of Weights",
   },
   {
-    filename: "leetcode-is-a-disqualifier.png",
-    title: "Leetcode as a qualifier for startups",
+    filename: "leetcode-as-a-disqualifier-for-startups.png",
+    title: "Leetcode as a disqualifier for startups",
     date: "February 25, 2026",
     readingTime: "4 min read",
   },
@@ -192,6 +199,25 @@ async function renderOgImage(opts: OgInputs): Promise<Buffer> {
 }
 
 // ---------------------------------------------------------------------------
+// Orphan cleanup
+// ---------------------------------------------------------------------------
+
+const expectedFiles = new Set(OG_IMAGES.map((img) => img.filename));
+
+function cleanupOrphans(): string[] {
+  if (!existsSync(OUT_DIR)) return [];
+  const removed: string[] = [];
+  for (const file of readdirSync(OUT_DIR)) {
+    if (!file.endsWith(".png")) continue;
+    if (expectedFiles.has(file)) continue;
+    unlinkSync(join(OUT_DIR, file));
+    removed.push(file);
+    console.log(`  🗑 removed orphan public/og/${file}`);
+  }
+  return removed;
+}
+
+// ---------------------------------------------------------------------------
 // Reconciliation
 // ---------------------------------------------------------------------------
 
@@ -218,8 +244,13 @@ async function main() {
     }
   }
 
+  const orphans = cleanupOrphans();
+
   if (toGenerate.length === 0) {
-    console.log("OG images up to date — nothing to generate.");
+    if (orphans.length === 0) {
+      console.log("OG images up to date — nothing to generate.");
+    }
+    writeManifest(nextManifest);
     return;
   }
 
