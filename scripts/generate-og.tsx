@@ -111,6 +111,16 @@ async function fetchFont(
 // Image rendering
 // ---------------------------------------------------------------------------
 
+const LOGO_PATH = join(ROOT, "public", "android-chrome-512x512.png");
+
+let logoDataUrl: string | null = null;
+function getLogoDataUrl(): string {
+  if (logoDataUrl) return logoDataUrl;
+  const buf = readFileSync(LOGO_PATH);
+  logoDataUrl = `data:image/png;base64,${buf.toString("base64")}`;
+  return logoDataUrl;
+}
+
 async function renderOgImage(opts: OgInputs): Promise<Buffer> {
   const [geist400, geist700, geistMono400] = await Promise.all([
     fetchFont("Geist", 400),
@@ -119,6 +129,7 @@ async function renderOgImage(opts: OgInputs): Promise<Buffer> {
   ]);
 
   const subtitle = [opts.date, opts.readingTime].filter(Boolean).join(" · ");
+  const logo = getLogoDataUrl();
 
   const svg = await satori(
     <div
@@ -128,54 +139,61 @@ async function renderOgImage(opts: OgInputs): Promise<Buffer> {
         width: "100%",
         height: "100%",
         backgroundColor: "#0a0a0a",
-        padding: "60px",
         color: "#fafafa",
       }}
     >
+      {/* Main area — 80% height, bottom border, padded to center content at 80% width */}
       <div
         style={{
           display: "flex",
-          fontSize: "22px",
-          fontWeight: 400,
-          fontFamily: "Geist",
-        }}
-      >
-        Mohit Yadav
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          flex: 1,
           flexDirection: "column",
-          justifyContent: "center",
+          width: "100%",
+          height: "80%",
+          borderBottom: "1px solid #333",
+          padding: "60px 120px 40px",
         }}
       >
+        <img
+          src={logo}
+          width={80}
+          height={80}
+          style={{ borderRadius: "14px" }}
+        />
+
         <div
           style={{
             display: "flex",
-            fontSize: "52px",
-            fontWeight: 700,
-            fontFamily: "Geist",
-            lineHeight: 1.2,
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "flex-end",
           }}
         >
-          {opts.title}
-        </div>
-
-        {subtitle ? (
           <div
             style={{
               display: "flex",
-              fontSize: "18px",
-              color: "#a1a1a1",
-              marginTop: "24px",
-              fontFamily: "Geist Mono",
+              fontSize: "73px",
+              fontWeight: 700,
+              fontFamily: "Geist",
+              lineHeight: 1.2,
             }}
           >
-            {subtitle}
+            {opts.title}
           </div>
-        ) : null}
+
+          {subtitle ? (
+            <div
+              style={{
+                display: "flex",
+                fontSize: "25px",
+                color: "#a1a1a1",
+                marginTop: "24px",
+                fontFamily: "Geist Mono",
+              }}
+            >
+              {subtitle}
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>,
     {
