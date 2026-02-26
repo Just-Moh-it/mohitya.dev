@@ -148,9 +148,9 @@ async function renderOgImage(opts: OgInputs): Promise<Buffer> {
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          height: "80%",
+          height: "85%",
           borderBottom: "1px solid #333",
-          padding: "60px 168px 40px 48px",
+          padding: "60px 168px 72px 48px",
         }}
       >
         <img
